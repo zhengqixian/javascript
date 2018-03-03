@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	html,body{
+		margin:0;
+		padding:0;
+		width:100%;
+		height: 100%;
+	}
+	div{
+		height: 50px;
+		width: 50px;
+		border-radius: 50px;
+		background-color: linen;
+		position: absolute;
+		left: 300px;
+		top: 0;
+		cursor: pointer;
+	}
+	</style>
+</head>
+<body>
+<div></div>
+<script>
+var box =document.querySelector("div");
+var r = box.offsetWidth/2;
+var lefts = [];
+var tops  = [];
+box.onmousedown = function(){
+	box.parentNode.onmousemove = function (e){
+	var left = e.clientX - r;
+	var top = e.clientY - r;
+	box.style.left = left +"px";
+	box.style.top =top + "px";
+	lefts.push(left);
+	tops.push(top);
+	}
+}
+box.onmouseup = function (){
+	box.parentNode.onmousemove = null;
+	setTimeout(function step(){
+		var left = lefts.pop();
+		var top = tops.pop();
+		box.style.left = left +"px";
+		box.style.top =top + "px";
+		if(lefts.length == 0 )return;
+		setTimeout(step,20);
+
+	},0)
+}
+
+
+</script>
+</body>
+</html>

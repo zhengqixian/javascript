@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Title</title>
+</head>
+<body>
+<label>请选择背景色:</label><input type="color"><br>
+<label>请选择图片:</label>
+<select>
+    <option value="img/1.jpg">one</option>
+    <option value="img/2.jpg">two</option>
+    <option value="img/3.jpg">three</option>
+</select><br>
+<img src="img/1.jpg" alt="">
+<script>
+    var input = document.querySelector("input");
+    var select =document.querySelector("select");
+    var img = document.querySelector("img");
+    init();
+    function init(){
+        var bc = localStorage.getItem("bc");
+        var src = localStorage.getItem("src");
+        console.log(bc,src);
+        setup(bc,src);
+    }
+    function setup(bc,src) {
+        if(bc){
+            document.body.style.backgroundColor = bc;
+            input.value = bc;
+        }
+        if(src){
+            img.src = src;
+            select.value = src;
+        }
+    }
+    function save(){
+        localStorage.setItem("bc",input.value);
+        localStorage.setItem("src",select.value);
+    }
+    input.onchange = function () {
+        setup(input.value,select.value);
+        save();
+    }
+    select.onchange = function () {
+        setup(input.value,select.value);
+        save();
+    }
+</script>
+</body>
+</html>

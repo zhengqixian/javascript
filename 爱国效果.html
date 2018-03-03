@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		span{
+			color: red;
+			display: inline-block;
+			width: 80px;
+			height: 50px;
+			line-height: 50px;
+			text-align: center;
+			position: absolute;
+			left: 0;
+			top: 0;
+			font-size: 30px;
+		}
+	</style>
+</head>
+<body>
+<script>
+var words = ["富强","民主","爱国","平等","公正"];
+var i = 0;
+document.onmouseup = function (e){
+	var span = document.createElement("span");
+	span.innerHTML = words[i++ % words.length];
+	var x = e.clientX;
+	var y = e.clientY;
+	span.style.left = x - 40 +"px";
+	span.style.top = y - 50 + "px";
+	span.style.opacity = 1;
+	span.style.color = `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
+	document.body.appendChild(span);
+	setTimeout(function step(){
+		span.style.top = span.offsetTop - 5 +"px";
+		span.style.opacity = span.style.opacity - 0.02;
+		if(span.style.opacity == 0){
+			span.parentNode.removeChild(span);
+			return;
+		}
+		setTimeout(step,40);
+	},100)
+}
+function randomInt(from, to) {
+    return parseInt(Math.random() * (to - from + 1) + from);
+}
+</script>
+
+</body>
+</html>

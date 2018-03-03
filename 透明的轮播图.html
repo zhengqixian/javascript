@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{
+		padding: 0;
+		margin:0;
+	}
+	div{
+		width: 600px;
+		height: 400px;
+		position: relative;
+		margin:0 auto;
+	}
+	div>img{
+		width: 600px;
+		height: 400px;
+		position:absolute;
+		left: 0;
+		top: 0;
+	}
+	</style>
+</head>
+<body>
+<div class="lbt">
+	<img src="./img/1.jpg" alt="" style="opacity: 1">
+	<img src="./img/2.jpg" alt="" style="opacity: 0">
+	<img src="./img/3.jpg" alt="" style="opacity: 0">
+	<img src="./img/4.jpg" alt="" style="opacity: 0">
+	<img src="./img/7.jpg" alt="" style="opacity: 0">
+	<img src="./img/1.jpg" alt="" style="opacity: 0">
+</div>
+<script>
+var imgs = document.querySelectorAll("div>img");
+/*表示正在显示的那个img的下标*/
+var currentIndex = 0;
+var time = 10;
+setTimeout(function step(){
+	imgs[currentIndex % imgs.length].style.opacity = +imgs[currentIndex % imgs.length].style.opacity - 0.05;
+	imgs[(currentIndex+1)%imgs.length].style.opacity = +imgs[(currentIndex+1)%imgs.length].style.opacity+0.05;
+	if(imgs[currentIndex%imgs.length].style.opacity <= 0 ){
+		currentIndex++;
+		time = 5000;
+	}else{
+		time = 10;
+	}
+	setTimeout(step,time);
+},1000)
+</script>
+</body>
+</html>

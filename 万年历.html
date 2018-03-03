@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{
+		padding: 0;
+		margin:0;
+		list-style: none;
+	}
+	.calendar{
+		width: 700px;
+		margin:100px auto;
+	}
+	.calendar div:nth-child(1){
+		text-align: center;
+		background-color:gray;
+		border-radius: 25px;
+		padding: 10px;
+	}
+	.calendar div:nth-child(2) li{
+		width: 100px;
+		height: 50px;
+		float: left;
+		line-height: 50px;
+		text-align: center;
+	}
+	.li_bc:hover{
+		background-color: lightgray;
+	}
+	</style>
+</head>
+<body>
+<div class="calendar">
+<div>
+	<select name="" class="year">
+	</select>年
+	<select name="" class="month"></select>月
+</div>
+<div>
+<ul>
+	<li>星期日</li>
+	<li>星期一</li>
+	<li>星期二</li>
+	<li>星期三</li>
+	<li>星期四</li>
+	<li>星期五</li>
+	<li>星期六</li>
+</ul>
+<ul class="dates">
+</ul>
+</div>
+</div>
+<script>
+var selects = document.querySelectorAll(".calendar select");
+var dateUl = document.querySelector(".dates");
+init();
+fillYears();
+fillMonth();
+showCurrent();
+fillDate();
+function init(){
+	selects[0].onchange = function(){
+		fillDate();
+	}
+	selects[1].onchange = function(){
+		fillDate();
+	}
+}
+/*填充年份*/
+function fillYears(){
+	for(var year = 1990; year < 3000;year++){
+		createOption(year,year,selects[0]);
+	}
+}
+/*填充12个月份*/
+function fillMonth(){
+	for(var month = 1;month < 13;month++){
+		createOption(month,month,selects[1]);
+	}
+}
+/*创建option,给父节点*/
+function createOption(text,value,parent){
+	var opt= document.createElement("option");
+	opt.innerHTML = text;
+	opt.value = value;
+	parent.appendChild(opt);
+}
+/*当前的年月*/
+function showCurrent(){
+	var date  =new Date();
+	selects[0].value = date.getFullYear();
+	selects[1].value = date.getMonth() + 1;
+}
+/*填充选中的年月的日期*/
+function fillDate(){
+	/*填充日期之前先清空里面的内容*/
+	dateUl.innerHTML = "";
+	/*现在选中的年月值*/
+	var year = selects[0].value;
+	var month = selects[1].value;
+	/*计算1号是星期几*/
+	var day = new Date(year,month - 1 ,1).getDay();
+	for(var i = 0;i < day ;i++){
+		createLi("",dateUl);
+	}
+	/*计算一个月的最后一天是几号,就表示这个月有几天*/
+	var dates = new Date(year,month,0).getDate();
+	/*计算当前的日期并且设置背景色*/
+	var now = new Date();
+	for(var i = 1; i <= dates ;i++){
+		var li = createLi(i,dateUl);
+		if(i == now.getDate()){
+			li.style.backgroundColor = "pink";
+			li.style.borderRadius = "25px";
+		}
+	}
+}
+/*添加一个li给指定的父容器*/
+function createLi(text,parent){
+	var li  =document.createElement("li");
+	li.innerHTML = text;
+	if((text + "").length > 0){
+		li.className = "li_bc";
+    }
+    parent.appendChild(li);
+    return li ;
+
+}
+</script>
+</body>
+</html>

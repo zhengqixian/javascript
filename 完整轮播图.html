@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+	.lbt{
+		width: 500px;
+		height: 400px;
+		margin:0 auto;
+		position: relative;
+	}
+	.imgs{
+		width: 100%;
+		height: 100%;
+		position: relative;
+	}
+	.imgs img{
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top:0;
+	}
+	.imgs>img:nth-child(n){
+		opacity: 0;
+	}
+	.indicator{
+		width: 240px;
+		height: 40px;
+		position: absolute;
+		bottom: 0;
+		left: 130px;
+		background-color: linen;
+		border-radius:20px;
+	}
+	.indicator li{
+		width: 30px;
+		height: 30px;
+		margin:5px;
+		background-color:#fff;
+		float: left;
+		text-align: center;
+		line-height: 30px;
+		border-radius: 50px;
+	}
+	.preNext{
+		width: 500px;
+		height: 50px;
+		position: absolute;
+		left: 0 ;
+		top: 175px;
+	}
+	.preNext>p{
+		width: 30px;
+		height: 50px;
+		background-color: #ccc;
+		text-align: center;
+		line-height: 50px;
+		float: left;
+		font-size: 25px;
+		font-weight: bold;
+		opacity: 0;
+	}
+	.preNext>p:nth-child(2){
+		float: right;
+	}
+	.preNext>p:hover{
+		opacity: 1 !important;
+	}
+	</style>
+</head>
+<body>
+<div class="lbt">
+<div class="imgs">
+<img src="./img/1.jpg" alt="" style="opacity: 1;">
+<img src="./img/2.jpg" alt="">
+<img src="./img/3.jpg" alt="">
+<img src="./img/4.jpg" alt="">
+<img src="./img/7.jpg" alt="">
+<img src="./img/8.jpg" alt="">
+</div>
+<ul class="indicator">
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>5</li>
+<li>6</li>
+</ul>
+<div class="preNext">
+<p>&lt;</p>
+<p>&gt;</p>
+</div>
+</div>
+<script>
+var lbt = document.querySelector(".lbt");
+var imgs = document.querySelectorAll(".imgs>img")
+var lis = document.querySelectorAll(".indicator>li");
+var ps = document.querySelector(".preNext>p");
+var currentIndex = 0;
+var currentIndex =0;
+function init(){
+	lbt.onmouseenter = function (){
+		clearInterval(autoId);
+		ps[0].style.opacity = 0.5;
+		ps[1].style.opacity = 0.5;
+	}
+	lbt.onmouseleave=function(){
+		autoPlay();
+		ps[0].style.opacity=0;
+		ps[1].style.opacity =0;
+	}
+	for(let i =0;i<lis.length;i++){
+		lis[i].onmouseenter = function(){
+			lis[nextIndex%lis.length].style.backgroundColor = "white";
+			lis[i].style.backgroundColor="pink";
+			currentIndex = nextIndex;
+			nextIndex = i;
+			play();
+		}
+	}
+	ps[0].onclick = function(){
+		nextIndex = currentIndex -1;
+		if(nextIndex<0){
+			nextIndex = nextIndex +lis.length;
+		}
+		play();
+		changeIndicatorBc();
+	}
+	ps[1].onclick = function(){
+		nextIndex = nextIndexx+1;
+		play();
+		changeIndicatorBc();
+	}
+}
+init();
+autoPlay();
+function play(){
+	setTimeout(function step(){
+		imgs[currentIndex%imgs.length].style.opacity = +imgs[currentIndex%imgs.length].style.opacity - 0.05;
+		imgs[nextIndex%imgs.length].style.opacity = +imgs[nextIndex%imgs.length].style.opacity + 0.05;
+		if(imgs[currentIndex%imgs.length] <= 0){
+			currentIndex = nextIndex;
+			return;
+		}
+		setTimeout(step,10);
+	},0)
+}
+var autoId;
+function autoPlay(){
+	autoId = setInterval(function step(){
+		nextIndex = currentIndex+1;
+		changeIndicatorBc();
+		play();
+	},1000);
+}
+function changeIndicatorBc(){
+	lis[nextIndex%lis.length].style.backgroundColor ="pink";
+	lis[currentIndex%lis.length].style.backgroundColor="white";
+}
+
+</script>
+</body>
+</html>

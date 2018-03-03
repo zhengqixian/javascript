@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{
+		padding: 0;
+		margin:0;
+	}
+	div{
+		width: 200px;
+		height:200px;
+		background-color: pink;
+		margin:100px auto;
+	}
+	</style>
+</head>
+<body>
+<div></div>
+<script>
+var words = "你好,我的世界,抱抱!";
+var span = document.createElement("span");
+var div = document.querySelector("div");
+document.onmouseup = function (e){
+	span.innerHTML = words;
+	var x = e.offsetX - div.offsetWidth/2;
+	var y = e.offsetY - div.offsetHeight/2;
+	span.style.top = y + "px";
+	span.style.left = x +"px";
+	document.body.appendChild(span);
+}
+</script>
+</body>
+</html>

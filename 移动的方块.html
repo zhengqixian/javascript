@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		div{
+			width: 200px;
+			height: 200px;
+			background-color: #ccc;
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+	</style>
+</head>
+<body>
+<div></div>
+<script>
+var box = document.querySelector("div");
+var boxLeft = 0;
+var boxTop = 0;
+/*1表示向右,-1表示向左*/
+var directionX = 1;
+var directionY = 1;
+setInterval(function(){
+    boxLeft += 5 * directionX;
+    boxTop +=3 * directionY;
+    /*判断左右边界*/
+    directionX = ( boxLeft>=1240 || boxLeft<=0 )? -directionX:directionX;
+    /*判断上下边界*/
+    directionY = (boxTop>=500 || boxTop<=0 )? -directionY:directionY;
+	box.style.left = boxLeft +"px";
+	box.style.top = boxTop + "px";
+},20)
+</script>
+</body>
+</html>

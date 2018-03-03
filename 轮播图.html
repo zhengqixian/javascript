@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{
+		margin:0;
+		padding: 0;
+	}
+	.lbt{
+		width: 600px;
+		height: 400px;
+		overflow: hidden;
+		position: relative;
+		margin:0 auto;
+	}	
+	.imgs{
+		width: 3600px;
+		height: 400px;
+		position:absolute;
+		left: 0;
+		top: 0;
+	}
+	.imgs>img{
+		width: 600px;
+		height:400px;
+		float: left;
+	}
+	</style>
+</head>
+<body>
+<div class="lbt">
+<div class="imgs">
+	<img src="./img/1.jpg" alt="">
+	<img src="./img/2.jpg" alt="">
+	<img src="./img/3.jpg" alt="">
+	<img src="./img/4.jpg" alt="">
+	<img src="./img/7.jpg" alt="">
+	<img src="./img/1.jpg" alt="">
+</div>
+</div>
+<script>
+/*平面滚动的轮播图*/
+/*var imgs = document.querySelector(".imgs");
+var left = 0;
+var direction = 1;
+var time = 15;
+setTimeout(function step(){
+	left -= 6 * direction;
+	if(left<=-3000|| left>0)
+		direction *= -1;
+		if(left%600 == 0){
+			time =2000;
+		}else{
+			time = 10;
+		}
+
+		imgs.style.left = left + "px";
+		//判断是否图片连贯(第一张和最后一张一样)
+		left = left == -3000 ? 0 : left;
+	//判断是否到达边缘
+    direction = left <= -3000 || left >= 0 ? -direction : direction;
+    // 如果某张图片完全显示了, 则调整time的值
+    time = left % 600 == 0 ? 1000 : 10;
+		setTimeout(step,time);
+},20)*/
+
+</script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{
+		padding: 0;
+		margin:0;
+		list-style: none;
+	}
+	.wrap{
+		width: 400px;
+		height: 400px;
+		margin:0 auto;
+		position: relative;
+		overflow: hidden;
+	}
+	ul{
+		width: 400px;
+		height: 400px;
+	}
+	ul > li{
+		width: 20px;
+		height: 20px;
+		background-color: lightgray;
+		float: left;
+		border-left: 1px solid #000;
+		border-top: 1px solid #000;
+		box-sizing: border-box;
+	}
+	ul li:nth-last-child(-n+20){
+		border-bottom: 1px solid #000;
+	}
+	ul li:nth-child(20n){
+		border-right: 1px solid #000;
+	}
+	.wrap div{
+		width: 20px;
+		height: 20px;
+		border:1px solid #000;
+		box-sizing: border-box;
+		background-color: pink;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	.warp div:nth-last-child(1){
+		left: 40px;
+	}
+	.warp div:nth-last-child(2){
+		left: 20px;
+	}
+	</style>
+</head>
+<body>
+<div class="wrap">
+<ul class ="area"></ul>
+</div>
+<script>
+var area = document.querySelector(".area");
+var wrap = document.querySelector(".wrap");
+var direction = "right";/*蛇运动的方向*/
+var food;
+init();
+drawArea();
+initSnake();
+var temp = document.querySelectorAll(".wrap div");
+var snakeBody = [temp[2],temp[1],temp[0]];
+move();
+putFood();
+/*初始化键盘事件左上右下:注册事件*/
+function init(){
+	document.onkeydown = function (e){
+		switch(e.keyCode){
+			case 37:
+			if(direction == "right")return;
+			direction = "left";
+			break;
+			case 38:
+			if(direction == "down")return;
+			direction = "up";
+			break;
+			case 39:
+			if(direction == "left")return;
+			direction = "right";
+			break;
+			case 40:
+			if(direction == "up")return;
+			direction = "down";
+			break;
+		}
+	}
+}
+/*绘制蛇移动的方格位置*/
+function drawArea(){
+	for(var i= 0;i<400;i++){
+		var li = document.createElement("li");
+		area.appendChild(li);
+	}
+}
+/*初始化蛇的位置*/
+function initSnake(){
+	for(var i =0;i < 3;i++){
+		var div =document.createElement("div");
+		wrap.appendChild(div);
+	}
+}
+/*让蛇运动*/
+function move(){
+	setTimeout(function step(){
+		var headLeft = snakeBody[0].offsetLeft;
+		var headTop = snakeBody[0].offsetTop;
+		snakeBody.unshift(snakeBody.pop());
+	  if(direction == "left"){
+	      /*高:相等;长度:要移动就添加20px*/
+	  	snakeBody[0].style.top = headTop +"px";
+		snakeBody[0].style.left= headLeft - 20 +"px";
+		}else if(direction == "right"){
+	  	snakeBody[0].style.top = headTop +"px";
+		snakeBody[0].style.left= headLeft + 20 +"px";
+		}else if(direction == "up"){
+		    /*长度:相等;高:要移动就添加20px*/
+	  	snakeBody[0].style.top = headTop - 20 + "px";
+		snakeBody[0].style.left= headLeft +"px";
+		}else{
+	  	snakeBody[0].style.top = headTop + 20 + "px";
+		snakeBody[0].style.left= headLeft +"px";
+		}
+		/*投食吃食物*/
+		eatFood();
+		/*蛇是否撞墙死亡*/
+		if(judgeFail()) {
+            alert("游戏结束!");
+            return;
+        }
+		setTimeout(step,3000/snakeBody.length);
+	},1000)
+}
+/*蛇是否撞墙死亡*/
+function judgeFail(){
+	var headLeft = snakeBody[0].offsetLeft;
+	var headTop = snakeBody[0].offsetTop;
+	return headLeft < 0 || headLeft > 370 ||headTop < 0 || headTop>370;
+}
+/*投放食物*/
+function putFood(){
+    food = document.createElement("div");
+    food.style.backgroundColor = "green";
+    var position = getFoodPosition();/*食物的位置*/
+    food.style.left = position[0] +"px";
+    food.style.top = position[1] + "px";
+    wrap.appendChild(food);
+}
+/*食物的坐标[left,top*/
+function getFoodPosition(){
+    while(true){
+        var flag = true;
+        var left = randomInt(0,19)*20;
+        var top = randomInt(0,19)*20;
+        for(var i = 0;i < snakeBody.length;i++){
+            if(left ==  snakeBody[i].offsetLeft && top == snakeBody[i].offsetTop){
+                flag = false;
+                break;
+            }
+        }
+        if(flag){
+            return [left,top]
+        }
+    }
+}
+/*吃食物*/
+function eatFood(){
+	if(!food)return;
+	console.log("food....");
+	var headLeft = snakeBody[0].offsetLeft;
+	var headTop = snakeBody[0].offsetTop;
+	var foodLeft = food.offsetLeft;
+	var foodTop = food.offsetTop;
+	/*蛇头运动到食物的位置*/
+	if(headLeft == foodLeft && headTop == foodTop){
+		food.style.backgroundColor = "pink";
+		snakeBody.push(food);
+		/*吃完重新投食*/
+		putFood();
+	}
+}
+/*返回随机的 [from, to] 之间的整数(包括from，也包括to)*/
+function randomInt(from,to){
+    return parseInt(Math.random() * (to - from + 1) + from);
+}
+</script>
+</body>
+</html>

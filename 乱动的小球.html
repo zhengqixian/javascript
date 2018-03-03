@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+<script> 
+var util = {
+	randomInt:function(from,to){
+		return parseInt(Math.random()*(to-from)+1);
+	}
+};
+var circle = {
+	r : 50,
+	left:util.randomInt(100,1300),
+	top:util.randomInt(100,600),
+	color:"pink",
+	directionX:Math.random()>0.5?1:-1,
+	directionY:Math.random()>0.5?1:-1,
+	speedX:10,
+	speedY:7,
+	div:document.createElement("div"),
+	init:function(){
+		var style = this.div.style;
+		style.height = this.r +"px";
+		style.width = this.r +"px";
+		style.left = this.left + "px";
+		style.top = this.top +"px";
+		style.backgroundColor = this.color;
+		style.position = "absolute";
+		style.borderRadius = "50%";
+		document.body.appendChild(this.div);
+	},
+	move:function(){
+		var div = this.div;
+		var speedX = this.speedX;
+		var speedY =this.speedY;
+		var directionX = this.directionX;
+		var directionY = this.directionY;
+		setInterval(function(){
+			div.style.left = div.offsetLeft + speedX*directionX +"px";
+			div.style.top = div.offsetTop + speedY *directionY +"px";
+			if(div.offsetLeft<=0||div.offsetLeft>=1000){
+				directionX = -directionX;
+			}
+			if(div.offsetTop<=0|| div.offsetTop>=400){
+				directionY= -directionY;
+			}
+		},20)
+	}
+}
+circle.init();
+circle.move();
+</script>
+</body>
+

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<p></p>
+<script>
+var p = document.querySelector("p");
+setTimeout(function (){
+	var d = new Date();
+	p.innerHTML=`${d.getFullYear()}年${d.getMonth()}月${d.getDate()}日  ${d.getHours()}:${d.getMinutes()}:${d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds()}`;
+},500);
+</script>
+</body>
+</html>

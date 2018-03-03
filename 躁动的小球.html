@@ -1,0 +1,113 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>躁动的小球</title>
+	<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	.container{
+		width: 600px;
+		height: 400px;
+		background-color: #ccc;
+		margin:0 auto;
+		position: relative;
+	}
+	.container>div{
+		border-radius: 50px;
+		position: absolute;
+	}
+	</style>
+</head>
+<body>
+<div class="container"></div>
+<script>
+function randomInt(from,to){
+	return parseInt(Math.random()*(to-from + 1)+from);
+}
+function createCircle(parent){
+	var pw = parent.offsetWidth;
+	var ph = parent.offsetHeight;
+	var div = document.createElement("div");
+	var wh = randomInt(10,80);
+	div.style.width = wh +"px";
+	div.style.height = wh + "px";
+	div.style.backgroundColor = `rgba(${randomInt(0,255)},${randomInt(0,255)},${randomInt(0,255)},${Math.random() * 0.5 + 0.5} ))`;
+	div.style.left = randomInt(0,pw-wh)+"px";
+	div.style.top = randomInt(0,ph-wh)+"px";
+	var speedX = randomInt(-20,20);
+	var speedY = randomInt(-20,20);
+	setTimeout(function step(){
+		var left = div.offsetLeft + speedX;
+		var top = div.offsetTop + speedY;
+		left = left <= 0 ? 0 : left;
+		left = left >= pw-wh ? pw - wh:left;
+		top = top<=0 ? 0 : top;
+		top = top>=ph-wh ? ph-wh:top;
+		setTimeout(step,20);
+	},0)
+	return div;
+}
+var box = document.querySelector(".container");
+for(var i = 0;i<30;i++){
+	var div = createCircle(box);
+	box.appendChild(div);
+}
+</script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+div{
+ border-radius: 50px;
+ position: absolute;
+}
+</style>
+</head>
+<body>
+<script>
+function randomInt(from,to){
+	return parseInt(Math.random()*(to-from +1)+from);
+}
+function createCircle(parent){
+	this.parent = parent;
+	var div = document.createElement("div");
+	var wh = randomInt(10,40);
+	div.style.width = wh +"px";
+	div.style.height = wh +"px";
+	div.style.backgroundColor = `rgb(${randomInt(0,255)},${randomInt(0,255)},${randomInt(0,255)})`;
+	div.style.left = randomInt(0,1000) +"px";
+	div.style.top = randomInt(0,500)+"px";
+	var speedX = randomInt(-20,20);
+	var speedY = randomInt(-20,20);
+	var maxLeft = this.parent.offsetWidth - wh;
+		var maxTop = this.parent.offsetHeight - wh;
+	setTimeout(function step(){
+		var left = div.offsetLeft+speedX;
+		var top = div.offsetTop+speedY;
+		left = left<=0 ?0 :left;
+		left = left>=maxLeft ? maxLeft : left;
+		speedX = (left<=0 || left>=maxLeft) ? -speedX:speedX;
+		top = top<=0 ? 0:top;
+		top =top>=maxTop ?maxTop :top;
+		speedY = (top<=0 || top>=maxTop) ? -speedY:speedY;
+		div.style.left = left +"px";
+		div.style.top = top +"px";
+
+	})
+	return div;
+
+}
+for(var i = 0;i < 10;i++){
+	var div = createCircle();
+	document.body.appendChild(div);
+}
+</script>
+</body>
+</html>

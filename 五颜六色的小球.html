@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{
+		margin:0;
+		padding: 0;
+	}
+	#container{
+		width: 700px;
+		height: 400px;
+		background-color: #ccc;
+		position: relative;
+		margin:0 auto;
+	}
+	#container>div{
+		border-radius: 50px;
+		position: absolute;
+	}
+	</style>
+</head>
+<body>
+<div id="container"></div>
+<script>
+function randomInt(from,to){
+	return parseInt(Math.random()*(to-from+1)+from);
+}
+function createCircle(parent){
+	var pw = parent.offsetWidth;
+	var ph =  parent.offsetHeight;
+	/*球的大小和颜色*/
+	var div = document.createElement("div");
+	var wh = randomInt(10,80);
+	div.style.width = wh +"px";
+	div.style.height = wh +"px";
+	div.style.backgroundColor = `rgba(${randomInt(0,255)},${randomInt(0,255)},${randomInt(0,255)},${Math.random()*0.5+0.5})`;
+	div.style.left = randomInt(0,pw - wh) +  "px";
+	div.style.top = randomInt(0,ph - wh) + "px";
+	/*躁动小球的运动*/
+	var speedX = randomInt(-20,20);
+	var speedY = randomInt(-20,20);
+	setTimeout(function step(){
+		var left = div.offsetLeft + speedX;
+		var top  =div.offsetTop + speedY;
+		left = left <=0 ? 0:left;
+		top = top <=0?0:top;
+		left = left >= pw-wh ? pw-wh:left;
+		top = top>= ph-wh ? ph - wh:top;
+		speedX = left <=0 || left>=pw-wh ? -speedX :speedX;
+		speedY = top<=0 || top>=ph-wh ? -speedY :speedY;
+		div.style.left = left +"px";
+		div.style.top  =top +"px";
+		setTimeout(step,20);
+	},0)
+	return div;
+}
+/*在新建的方块里变换小球的位置*/
+var box = document.getElementById("container");
+for(var i = 0;i < 30;i++){
+	var div = createCircle(box);
+	box.appendChild(div);
+}
+</script>
+</body>
+</html>
